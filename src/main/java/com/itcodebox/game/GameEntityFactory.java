@@ -99,6 +99,7 @@ public class GameEntityFactory implements EntityFactory {
         collidableComponent.addIgnoredType(ownerType);
         return FXGL.entityBuilder(data)
                 .type(GameType.BULLET)
+                .with("isMissile", false)
                 .viewWithBBox(t)
                 .with(new OffscreenCleanComponent())
                 .with(new ProjectileComponent(dir, 800))
@@ -112,13 +113,13 @@ public class GameEntityFactory implements EntityFactory {
         collidableComponent.addIgnoredType(GameType.PLAYER);
         return FXGL.entityBuilder(data)
                 .type(GameType.BULLET)
+                .with("isMissile", true)
                 .viewWithBBox("bullet/missile.png")
                 .with(new OffscreenCleanComponent())
                 .with(new ProjectileComponent(new Point2D(0, -1), 980))
                 .with(collidableComponent)
                 .build();
     }
-
 
     @Spawns("enemy")
     public Entity newEnemy(SpawnData data) {

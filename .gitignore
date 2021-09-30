@@ -6,4 +6,5 @@
 *.iml
 out
 gen
-!/.idea/
+/.idea/
+/logs/

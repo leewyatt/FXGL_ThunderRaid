@@ -8,7 +8,7 @@ import javafx.util.Duration;
 public interface Config {
     double BG_SCROLL_SPEED = 160;
 
-    double PLAYER_MOVE_SPEED = 6;
+    double PLAYER_MOVE_SPEED = 8;
 
     Duration PLAYER_PROTECT_DURATION = Duration.seconds(7);
     Duration ENEMY_PROTECT_DURATION = Duration.seconds(0.9);

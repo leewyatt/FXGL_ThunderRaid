@@ -59,7 +59,7 @@ public class ThunderRaidApp extends GameApplication {
 
     @Override
     protected void onPreInit() {
-        //getSettings().setGlobalMusicVolume(0.35);
+        getSettings().setGlobalMusicVolume(0.6);
         //getSettings().setGlobalSoundVolume(0.45);
         loopBGM("bgm.mp3");
     }
@@ -113,6 +113,7 @@ public class ThunderRaidApp extends GameApplication {
             @Override
             protected void onAction() {
                 if (launchTimer != null && FXGL.geti("missileNum") > 0 && launchTimer.elapsed(Duration.seconds(2))) {
+                    FXGL.play("missileLaunch.wav");
                     for (int i = 0; i < 18; i++) {
                         spawn("missile", i * FXGL.getAppWidth() / 16.0 - 20, player.getEntity().getY());
                     }
@@ -128,11 +129,15 @@ public class ThunderRaidApp extends GameApplication {
         CollisionHandler handler = new CollisionHandler(GameType.ENEMY, GameType.BULLET) {
             @Override
             protected void onCollisionBegin(Entity enemy, Entity b) {
-                b.removeFromWorld();
+                boolean isMissile = b.getBoolean("isMissile");
+                if (b.isActive()) {
+                    b.removeFromWorld();
+                }
                 if (enemy.getComponent(EnemyComponent.class).isProtected()) {
                     return;
                 }
-                FXGL.play("explosion.wav");
+
+                FXGL.play(isMissile?"missileExplosion.wav":"explosion.wav");
                 spawn("explosion", enemy.getCenter().subtract(60, 60));
                 FXGL.inc("score", FXGLMath.random(10, 50));
                 if (FXGLMath.randomBoolean(0.35)) {
@@ -198,7 +203,7 @@ public class ThunderRaidApp extends GameApplication {
 
     @Override
     protected void initUI() {
-        Text descText = new Text("↑  ↓ ← → shoot:SPACE  F:Rocket");
+        Text descText = new Text("↑  ↓ ← → shoot:SPACE  rocket:F");
         descText.setFill(Color.LIGHTBLUE);
         descText.setFont(Font.font(28));
         FXGL.addUINode(descText, 200, FXGL.getAppHeight()-30);
@@ -272,6 +277,7 @@ public class ThunderRaidApp extends GameApplication {
                 spawn("enemy", FXGLMath.random(0, FXGL.getAppWidth() - 150), FXGLMath.random(point.getY() - FXGL.getAppHeight() / 2.0, point.getY() - FXGL.getAppHeight()));
             }
         }, Duration.seconds(2), Config.WAVE);
+        FXGL.play("alert.wav");
     }
 
     public static void main(String[] args) {
