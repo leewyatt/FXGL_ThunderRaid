@@ -7,7 +7,7 @@
 
 > Email: leewyatt7788@gmail.com
 
-> javafx 交流QQ群 518914410
+> javafx 交流QQ群 **518914410**
 
 
 ![img.png](ReadMeImag/img.png)
